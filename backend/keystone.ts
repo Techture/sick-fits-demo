@@ -1,19 +1,16 @@
 import 'dotenv/config';
+
 import { createAuth } from '@keystone-next/auth';
 import { config, createSchema } from '@keystone-next/keystone/schema';
-
 import {
-  withItemData,
   statelessSessions,
+  withItemData,
 } from '@keystone-next/keystone/session';
 
-import { permissionsList } from './schemas/fields';
-
-import { insertSeedData } from './seed-data';
-
-import { User } from './schemas/User';
 import { Product } from './schemas/Product';
 import { ProductImage } from './schemas/ProductImage';
+import { User } from './schemas/User';
+import { insertSeedData } from './seed-data';
 
 const databaseURL =
   process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
@@ -31,16 +28,16 @@ const { withAuth } = createAuth({
     fields: ['name', 'email', 'password'],
     // TODO: Add in inital roles here
   },
-  // passwordResetLink: {
-  //   async sendToken(args) {
-  //     // send the email
-  //     await sendPasswordResetEmail(args.token, args.identity);
-  //   },
-  // },
+  passwordResetLink: {
+    async sendToken(args) {
+      console.log(args);
+    },
+  },
 });
 
 export default withAuth(
   config({
+    // @ts-ignore
     server: {
       cors: {
         origin: [process.env.FRONTEND_URL],
@@ -63,15 +60,15 @@ export default withAuth(
       Product,
       ProductImage,
     }),
-    // extendGraphqlSchema,
     ui: {
       // Show the UI only for poeple who pass this test
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      isAccessAllowed: ({ session }) => !!session?.data,
+      isAccessAllowed: ({ session }) =>
+        // console.log(session);
+        !!session?.data,
     },
     session: withItemData(statelessSessions(sessionConfig), {
       // GraphQL Query
-      User: `id name email role { ${permissionsList.join(' ')} }`,
+      User: 'id name email',
     }),
   })
 );

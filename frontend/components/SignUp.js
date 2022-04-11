@@ -1,8 +1,10 @@
 import gql from 'graphql-tag';
+
 import { useMutation } from '@apollo/client';
-import Form from './styles/Form';
+
 import useForm from '../lib/useForm';
 import Error from './ErrorMessage';
+import Form from './styles/Form';
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
@@ -39,7 +41,8 @@ export default function SignUp() {
     // Send the email and password to the graphqlAPI
   }
   return (
-    <Form method='POST' onSubmit={handleSubmit}>
+    // eslint-disable-next-line react/jsx-no-bind
+    <Form method="POST" onSubmit={handleSubmit}>
       <h2>Sign Up For an Account</h2>
       <Error error={error} />
       <fieldset>
@@ -48,40 +51,40 @@ export default function SignUp() {
             Signed up with {data.createUser.email} - Please Go Head and Sign in!
           </p>
         )}
-        <label htmlFor='email'>
+        <label htmlFor="email">
           Your Name
           <input
-            type='text'
-            name='name'
-            placeholder='Your Name'
-            autoComplete='name'
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            autoComplete="name"
             value={inputs.name}
             onChange={handleChange}
           />
         </label>
-        <label htmlFor='email'>
+        <label htmlFor="email">
           Email
           <input
-            type='email'
-            name='email'
-            placeholder='Your Email Address'
-            autoComplete='email'
+            type="email"
+            name="email"
+            placeholder="Your Email Address"
+            autoComplete="email"
             value={inputs.email}
             onChange={handleChange}
           />
         </label>
-        <label htmlFor='password'>
+        <label htmlFor="password">
           Password
           <input
-            type='password'
-            name='password'
-            placeholder='Password'
-            autoComplete='password'
+            type="password"
+            name="password"
+            placeholder="Password"
+            autoComplete="password"
             value={inputs.password}
             onChange={handleChange}
           />
         </label>
-        <button type='submit'>Sign In!</button>
+        <button type="submit">Sign In!</button>
       </fieldset>
     </Form>
   );

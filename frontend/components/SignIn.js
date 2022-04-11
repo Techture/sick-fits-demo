@@ -49,6 +49,7 @@ export default function SignIn() {
       ? data?.authenticateUserWithPassword
       : undefined;
   return (
+    // eslint-disable-next-line react/jsx-no-bind
     <Form method="POST" onSubmit={handleSubmit}>
       <h2>Sign Into Your Account</h2>
       <Error error={error} />
